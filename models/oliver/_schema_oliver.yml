@@ -13,3 +13,7 @@ models:
     description: "oliver store Dimension"
   - name: fact_sales
     description: "oliver sale Fact"
+  - name: stg_employee_certifications
+    description: "Staging file for employee certifcates"
+  - name: fact_certification
+    description: "Oliver fact for employee certifications. Grain is one row per employee certification award date and certificate info "
