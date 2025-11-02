@@ -52,6 +52,16 @@ sources:
 3. Create the following new .sql files in the Group10final folder. NOTE: click "run build" after saving each of the .sql files
 additional note: YOU NEED TO MAKE SURE TO FOLLOW THIS ORDER TO AVOID CONFLICTS LATER DOWN THE LINE.
 
+Add additional note, you will need to make sure to include this at the top of each of the SQL files to ensure that you hit the right database as the default will not be sufficient for this. You can also reset your default within dbt. :
+~~~
+{{ config(
+    materialized = 'table',
+    database = 'GROUP10PROJECT',
+    schema = 'dw_ecoessentials'
+    )
+}}
+~~~
+
 ee_dim_date.sql
 ~~~
 {{ config(
@@ -238,5 +248,6 @@ on ca.Campaign_ID=ol.campaign_id
 inner join {{ ref('ee_dim_date') }} d
 on d.date_key=cast(o.order_timestamp as date)
 ~~~
+
 
 
