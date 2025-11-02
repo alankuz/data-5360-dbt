@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "customer Dimension"
+  - name: dim_campaign
+    description: "Campaign Dimension"
+  - name: dim_date
+    description: "Date Dimension"
+  - name: dim_email
+    description: " sent email Dimension"
+  - name: dim_product
+    description: "product dimension"
+  - name: fact_emailevent
+    description: "email event fact table. Grain = a single email sent to a single person"
+  - name: fact_sales
+    description: "sales fact table. grain = a single sale on a single date for a single customer"
