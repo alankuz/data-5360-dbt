@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: g10p_landing
+    database: GROUP10PROJECT
+    schema: DW_ECOESSENTIALS_SOURCE_TRANSACTIONAL_DB
+    tables:
+      - name: customer
+      - name: email_events
+      - name: orders
+      - name: order_line
+      - name: product
+      - name: promotional_campaign
