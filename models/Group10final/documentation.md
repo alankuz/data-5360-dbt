@@ -1,9 +1,14 @@
-Group 10 Finale Project Part 2
+Group 10 Final Project Part 2
 <img width="951" height="713" alt="image" src="https://github.com/user-attachments/assets/451467d1-8404-434b-839b-d84f9464847b" />
+Initial Setup instructions:
 
-1.Create New Folder Called Group10final
+Go here to get the fivetran connection credentials. As they include keys and passwords that are secret, they will not be included here:
 
-2.Create two following YML files
+https://usu.instructure.com/courses/791624/pages/final-project-eco-essentials-marketing-data-mart
+
+1.Create New Folder Called Group10final inside of your models folder. 
+
+2.Create two following YML files. These will ensure that you are able to interact with the existing files within the snowflake database. 
 
 _schema_group10project.yml
 
@@ -45,8 +50,9 @@ sources:
 ~~~
 
 3. Create the following new .sql files in the Group10final folder. NOTE: click "run build" after saving each of the .sql files
+additional note: YOU NEED TO MAKE SURE TO FOLLOW THIS ORDER TO AVOID CONFLICTS LATER DOWN THE LINE.
 
-ee_dim_date
+ee_dim_date.sql
 ~~~
 {{ config(
     materialized = 'table',
@@ -68,7 +74,7 @@ date_day as date_key
 ,year_number As year
 from cte_date
 ~~~
-ee_dim_email
+ee_dim_email.sql
 ~~~
 {{ config(
     materialized = 'table',
@@ -86,7 +92,7 @@ emailname
 
 FROM {{ source('g10p_landing', 'email_events') }}
 ~~~
-ee_dim_product
+ee_dim_product.sql
 ~~~
 {{ config(
     materialized = 'table',
@@ -105,7 +111,7 @@ price
 
 FROM {{ source('g10p_landing', 'product') }}
 ~~~
-ee_dim_campaign
+ee_dim_campaign.sql
 ~~~
 {{ config(
     materialized = 'table',
@@ -124,7 +130,7 @@ campaign_discount,
 
 FROM {{ source('g10p_landing', 'promotional_campaign') }}
 ~~~
-ee_dim_customer
+ee_dim_customer.sql
 ~~~
 {{ config(
     materialized = 'table',
@@ -174,7 +180,7 @@ where e.email_norm is not null
 ~~~
 After creating your dimensions, you may then create your fact tables using the following code. Make sure to run each of these after saving the files one at a time to avoid errors
 
-ee_fact_emailevent
+ee_fact_emailevent.sql
 ~~~
 
 {{ config(
@@ -202,7 +208,7 @@ left join {{ ref('ee_dim_date') }} d_send
 left join {{ ref('ee_dim_date') }} d_event
   on d_event.date_key = cast(e.eventtimestamp as date)
 ~~~
-ee_fact_sales
+ee_fact_sales.sql
 ~~~
 {{ config(
     materialized = 'table',
@@ -232,4 +238,5 @@ on ca.Campaign_ID=ol.campaign_id
 inner join {{ ref('ee_dim_date') }} d
 on d.date_key=cast(o.order_timestamp as date)
 ~~~
+
 
