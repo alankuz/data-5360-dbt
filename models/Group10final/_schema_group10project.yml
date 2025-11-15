@@ -3,15 +3,56 @@ version: 2
 models:
   - name: ee_dim_customer
     description: "customer Dimension"
+    columns:
+      - name: customer_key
+        tests:
+          - unique
   - name: ee_dim_campaign
     description: "Campaign Dimension"
+    columns:
+      - name: campaign_key
+        description: "primary key for campaigns"
+        tests:
+          - not_null
   - name: ee_dim_date
     description: "Date Dimension"
+    columns:
+      - name: date_key
+        tests:
+          - unique
   - name: ee_dim_email
     description: " sent email Dimension"
+    columns:
+      - name: emailname
+        description: "name of emails being sent out"
+        tests:
+          - not_null
   - name: ee_dim_product
     description: "product dimension"
+    columns:
+      - name: product_type
+        tests:
+          - accepted_values:
+              values:
+                - "pot"
+                - "storage"
+                - "accessory"
+                - "utensil"
+                - "pan"
+                - "cutting_board"
   - name: ee_fact_emailevent
     description: "email event fact table. Grain = a single email sent to a single person"
+    columns:
+      - name: email_key
+        tests:
+          - relationships:
+              to: ref('ee_dim_email') # the model you want to compare to
+              field: email_key # the field on the model you want to compare to
   - name: ee_fact_sales
     description: "sales fact table. grain = a single sale on a single date for a single customer"
+    columns:
+      - name: product_key
+        tests:
+          - relationships:
+              to: ref('ee_dim_product') # the model you want to compare to
+              field: product_key # the field on the model you want to compare to
